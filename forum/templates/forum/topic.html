@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+    <form action="/forum/user_profile/{{user.id}}/">
+        <input type="submit" value="Profile"/>
+    </form>
+    <h1>{{topic.name}}</h1>
+    <form action="/forum/add_post/{{topic.id}}/" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Add post"/>
+    </form>
+    {% if posts_list %}
+        {% for post in posts_list %}
+            <h2>{{post.post_text}}</h2>
+            <p>added on {{post.published_date}} by {{post.user}}</p>
+            {% if user == post.user %}
+                <form action="/forum/edit_post/{{topic.id}}/{{post.id}}/" method="get">
+                    {% csrf_token %}
+                    <input type="submit" value="Edit post"/>
+                </form>
+            {% endif %}
+            <form action="/forum/add_comment/{{topic.id}}/{{post.id}}/" method="post">
+                {% csrf_token %}
+                <input type="submit" value="Add comment"/>
+            </form>
+            {% if comments_list %}
+                <p>comments:</p>
+                    {% for comment in comments_list %}
+                        {% if post == comment.post %}
+                            {{comment.comment_text}}
+                                <p>added on {{comment.published_date}} by {{comment.user}}</p>
+                                {% if user == comment.user %}
+                                    <form action="/forum/edit_comment/{{topic.id}}/{{post.id}}/{{comment.id}}/" method="get">
+                                        {% csrf_token %}
+                                        <input type="submit" value="Edit comment"/>
+                                    </form>
+                                {% endif %}
+                        {% endif %}
+                    {% endfor %}
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <p>There are no posts in the forum</p>
+    {% endif %}
+{% endblock %}
