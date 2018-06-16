@@ -1,8 +1,0 @@
-{% extends 'base.html' %}
-{% block content %}
-    <form method="post" action="/forum/add_post/{{topic.id}}/">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Add post">
-    </form>
-{% endblock %}
