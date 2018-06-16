@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+    <form action="/forum/user_profile/{{user.id}}/">
+        <input type="submit" value="Profile"/>
+    </form>
+    <form action="/forum/add_topic/" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Add topic"/>
+    </form>
+    {% if topics_list %}
+        {% for topic in topics_list %}
+            <p>{{topic.name}}</p>
+            <p>created on {{topic.published_date}} by {{topic.user}}</p>
+                <form action="/forum/topic/{{topic.id}}">
+                    <input type="submit" value="Go"/>
+                </form>
+            {% if topic.user == user %}
+                <form action="/forum/edit_topic/{{topic.id}}/" method="get">
+                    {% csrf_token %}
+                    <input type="submit" value="Edit topic"/>
+                </form>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <p>There are no topics in the forum</p>
+    {% endif %}
+{% endblock %}
