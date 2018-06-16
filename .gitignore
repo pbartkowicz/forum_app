@@ -1,5 +1,5 @@
 migrations/
 db.sqlite3
 .idea/
-forum/__pycache__/
-forum_app/__pycache__/
+./forum/__pycache__/
+./forum_app/__pycache__/
