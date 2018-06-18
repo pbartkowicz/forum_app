@@ -60,7 +60,7 @@ def change_password(request):
     else:
         form = PasswordChangeForm(request.user)
 
-    template = loader.get_template('registration/edit_password.html')
+    template = loader.get_template('registration/change_password.html')
     context = {'form': form}
     return HttpResponse(template.render(context, request))
 

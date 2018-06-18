@@ -1,48 +1,48 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="heading2">{{topic.name}}</div>
+    <div class="heading2">{{ topic.name }}</div>
     <div class="buttons-panel">
-        <form action="/forum/add_post/{{topic.id}}/" method="post" class="btn-group">
+        <form action="/forum/add_post/{{ topic.id }}/" method="post" class="btn-group">
             {% csrf_token %}
             <button type="submit">Add post</button>
         </form>
-    <form action="/forum/user_profile/{{user.id}}/" class="btn-group">
-        <button type="submit">Profile</button>
-    </form>
+        <form action="/forum/user_profile/{{ user.id }}/" class="btn-group">
+            <button type="submit">Profile</button>
+        </form>
     </div>
     {% if posts_list %}
         {% for post in posts_list %}
             <div class="panel">
-            <div class="topic">{{post.post_text}}</div>
-            <div class="date">added on {{post.published_date}} by {{post.user}}</div>
-                            </div>
-                <div class="buttons-panel2">
-                <form action="/forum/add_comment/{{topic.id}}/{{post.id}}/" method="post" class="btn-group">
-                {% csrf_token %}
-                <button type="submit">Add comment</button>
-            </form>
-            {% if user == post.user %}
-                <form action="/forum/edit_post/{{topic.id}}/{{post.id}}/" method="get" class="btn-group">
+                <div class="topic">{{ post.post_text }}</div>
+                <div class="date">added on {{ post.published_date }} by {{ post.user }}</div>
+            </div>
+            <div class="buttons-panel2">
+                <form action="/forum/add_comment/{{ topic.id }}/{{ post.id }}/" method="post" class="btn-group">
                     {% csrf_token %}
-                    <button type="submit">Edit post</button>
+                    <button type="submit">Add comment</button>
                 </form>
-            {% endif %}
-                    </div>
+                {% if user == post.user %}
+                    <form action="/forum/edit_post/{{ topic.id }}/{{ post.id }}/" method="get" class="btn-group">
+                        {% csrf_token %}
+                        <button type="submit">Edit post</button>
+                    </form>
+                {% endif %}
+            </div>
             {% if comments_list %}
                     {% for comment in comments_list %}
                         {% if post == comment.post %}
                             <div class="comment-panel">
-                            <div class="topic">{{comment.comment_text}}</div>
-                                <div class="date">added on {{comment.published_date}} by {{comment.user}}</div>
-                                </div>
-                                {% if user == comment.user %}
-                                    <div class="buttons-panel2">
-                                    <form action="/forum/edit_comment/{{topic.id}}/{{post.id}}/{{comment.id}}/" method="get" class="btn-group">
+                                <div class="topic">{{ comment.comment_text }}</div>
+                                <div class="date">added on {{ comment.published_date }} by {{ comment.user }}</div>
+                            </div>
+                            {% if user == comment.user %}
+                                <div class="buttons-panel2">
+                                    <form action="/forum/edit_comment/{{ topic.id }}/{{ post.id }}/{{ comment.id }}/" method="get" class="btn-group">
                                         {% csrf_token %}
                                         <button type="submit">Edit comment</button>
                                     </form>
-                                        </div>
-                                {% endif %}
+                                </div>
+                            {% endif %}
                         {% endif %}
                     {% endfor %}
             {% endif %}

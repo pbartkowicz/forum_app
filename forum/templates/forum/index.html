@@ -6,27 +6,27 @@
             {% csrf_token %}
             <button type="submit">Add topic</button>
         </form>
-    <form action="/forum/user_profile/{{user.id}}/" class="btn-group">
-        <button type="submit">Profile</button>
-    </form>
+        <form action="/forum/user_profile/{{ user.id }}/" class="btn-group">
+            <button type="submit">Profile</button>
+        </form>
     </div>
     {% if topics_list %}
         {% for topic in topics_list %}
             <div class="panel">
-                <div class="topic">{{topic.name}}</div>
-                <div class="date">created on {{topic.published_date}} by {{topic.user}}</div>
+                <div class="topic">{{ topic.name }}</div>
+                <div class="date">created on {{ topic.published_date }} by {{ topic.user }}</div>
             </div>
-                <div class="buttons-panel2">
+            <div class="buttons-panel2">
                 {% if topic.user == user %}
-                <form action="/forum/edit_topic/{{topic.id}}/" method="get" class="btn-group">
+                <form action="/forum/edit_topic/{{ topic.id }}/" method="get" class="btn-group">
                     {% csrf_token %}
                     <button type="submit">Edit topic</button>
                 </form>
                 {% endif %}
-                <form action="/forum/topic/{{topic.id}}" class="btn-group">
+                <form action="/forum/topic/{{ topic.id }}" class="btn-group">
                     <button type="submit">Go</button>
                 </form>
-                    </div>
+            </div>
         {% endfor %}
     {% endif %}
 {% endblock %}

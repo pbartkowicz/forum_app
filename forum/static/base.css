@@ -150,10 +150,6 @@ button {
     min-height: 40px;
 }
 
-.word-wrap {
-    word-wrap: break-word;
-}
-
 .user-profile {
     padding-left: 20px;
 }

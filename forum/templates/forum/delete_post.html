@@ -2,21 +2,21 @@
 {% block content %}
     <div class="heading2">Delete</div>
     <div class="buttons-panel">
-    <form action="/forum/user_profile/{{user.id}}/" class="btn-group">
-        <button type="submit">Profile</button>
-    </form>
+        <form action="/forum/user_profile/{{ user.id }}/" class="btn-group">
+            <button type="submit">Profile</button>
+        </form>
     </div>
     <div class="panel">
-        <div class="topic">{{post.post_text}}</div>
+        <div class="topic">{{ post.post_text }}</div>
     </div>
     <div class="buttons-panel2">
-    <form method="post" action="/forum/delete_post/{{topic.id}}/{{post.id}}/" class="btn-group">
-        {% csrf_token %}
+        <form method="post" action="/forum/delete_post/{{ topic.id }}/{{ post.id }}/" class="btn-group">
+            {% csrf_token %}
             <button type="submit">Yes</button>
-    </form>
-    <form method="post" action="/forum/topic/{{topic.id}}/" class="btn-group">
-        {% csrf_token %}
+        </form>
+        <form method="post" action="/forum/topic/{{ topic.id }}/" class="btn-group">
+            {% csrf_token %}
             <button type="submit">No</button>
-    </form>
-        </div>
+        </form>
+    </div>
 {% endblock %}

@@ -2,21 +2,21 @@
 {% block content %}
     <div class="heading2">Edit topic</div>
     <div class="buttons-panel">
-    <form action="/forum/user_profile/{{user.id}}/" class="btn-group">
-        <button type="submit">Profile</button>
-    </form>
+        <form action="/forum/user_profile/{{ user.id }}/" class="btn-group">
+            <button type="submit">Profile</button>
+        </form>
     </div>
-  <form method="post" class="btn-group">
-    {% csrf_token %}
-    {{ form.name }}
-      <div class="buttons-panel2">
-          <form method="post" action="/forum/edit_topic/{{topic.id}}/">
-          <button type="submit" class="btn-group">Save</button>
-          </form>
-          <form action="/forum/delete_topic/{{topic.id}}/" method="get">
-              {% csrf_token %}
-              <button>Delete</button>
-          </form>
-      </div>
-  </form>
+    <form method="post" class="btn-group">
+        {% csrf_token %}
+        {{ form.name }}
+        <div class="buttons-panel2">
+            <form method="post" action="/forum/edit_topic/{{ topic.id }}/">
+                <button type="submit" class="btn-group">Save</button>
+            </form>
+            <form action="/forum/delete_topic/{{ topic.id }}/" method="get">
+                {% csrf_token %}
+                <button>Delete</button>
+            </form>
+        </div>
+    </form>
 {% endblock %}
