@@ -9,27 +9,18 @@ class TopicForm(forms.ModelForm):
     class Meta:
         model = Topic
         fields = ('name', )
-        widgets = {
-            'name': forms.TextInput(attrs={'class': 'char-field'}),
-        }
 
 
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ('post_text', )
-        widgets = {
-            'post_text': forms.TextInput(attrs={'class': 'text-field'}),
-        }
 
 
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('comment_text', )
-        widgets = {
-            'comment_text': forms.TextInput(attrs={'class': 'text-field'}),
-        }
 
 
 class RegisterForm(UserCreationForm):

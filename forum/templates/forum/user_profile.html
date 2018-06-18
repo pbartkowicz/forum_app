@@ -12,13 +12,15 @@
     </form>
     </div>
     <div class="panel">
-    <p>username: {{user.username}}</p>
-    <p>email: {{user.email}}</p>
+        <div class="user-profile">
+    <div class="login">username: {{user.username}}</div>
+    <div class="login">email: {{user.email}}</div>
     {% if user.first_name %}
-    <p>first name: {{user.first_name}}</p>
+    <div class="login">first name: {{user.first_name}}</div>
     {% endif %}
     {% if user.last_name %}
-    <p>last name: {{user.last_name}}</p>
+    <div class="login">last name: {{user.last_name}}</div>
+            </div>
         </div>
     {% endif %}
 {% endblock %}
