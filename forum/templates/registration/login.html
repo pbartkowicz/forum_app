@@ -3,10 +3,18 @@
     <div class="heading2">Log in</div>
     <form method="post">
         {% csrf_token %}
+        {% if form.non_field_errors %}
+        <div class="login">
+            {% for error in form.non_field_errors %}
+            {{ error }}
+            {% endfor %}
+            </div>
+        {% endif %}
         <div class="login">username:</div>
         <div class="login">{{ form.username }}</div>
         <div class="login">password:</div>
         <div class="login">{{ form.password }}</div>
+        {{ form.errors.password }}
         <div class="button-panel2">
         <button type="submit" class="btn-group">Log in</button>
         </div>

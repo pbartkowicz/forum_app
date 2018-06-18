@@ -10,6 +10,7 @@
     {% csrf_token %}
     <div class="login">username:</div>
       <div class="login">{{form.username}}</div>
+      {{ form.errors.username }}
       <div class="login">first name:</div>
       <div class="login">{{form.first_name}}</div>
       <div class="login">last name:</div>
