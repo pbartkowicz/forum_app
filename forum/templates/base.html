@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
+    <link rel="stylesheet" href="/static/base.css">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans&subset=latin-ext' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Eater+Caps" />
     <meta charset="UTF-8">
     <title>Forum</title>
 </head>
 <body>
-    <form action="/forum">
-        <input type="submit" value="Topics"/>
+    <div class="heading">
+    <form action="/forum" class="btn-group">
+        <button type="submit">Topics</button>
     </form>
-    <form action="/logout">
-        <input type="submit" value="Logout"/>
+    <form action="/logout" class="btn-group">
+        <button type="submit">Log out</button>
     </form>
     <h1>Just Forum</h1>
+    </div>
         {% block content %}
         {% endblock %}
 </body>

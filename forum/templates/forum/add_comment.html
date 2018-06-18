@@ -1,8 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
-    <form method="post" action="/forum/add_comment/{{topic.id}}/{{post.id}}/">
+    <div class="heading2">New comment</div>
+    <div class="buttons-panel">
+    <form action="/forum/user_profile/{{user.id}}/" class="btn-group">
+        <button type="submit">Profile</button>
+    </form>
+    </div>
+    <form method="post" action="/forum/add_comment/{{topic.id}}/{{post.id}}/" class="btn-group">
         {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Add comment">
+        {{ form.comment_text }}
+        <div class="buttons-panel2">
+            <button type="submit">Add</button>
+        </div>
     </form>
 {% endblock %}

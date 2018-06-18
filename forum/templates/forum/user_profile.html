@@ -1,14 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>User profile</h1>
-    <form action="/forum/edit_profile/{{user.id}}/" method="get">
+    <div class="heading2">User profile</div>
+    <div class="buttons-panel">
+        <form action="/forum/edit_profile/{{user.id}}/" method="get" class="btn-group">
+            {% csrf_token %}
+            <button type="submit">Edit profile</button>
+        </form>
+    <form action="/forum/change_password/" method="get" class="btn-group">
         {% csrf_token %}
-        <input type="submit" value="Edit profile"/>
+        <button type="submit">Change password</button>
     </form>
-    <form action="/forum/change_password/" method="get">
-        {% csrf_token %}
-        <input type="submit" value="Change password"/>
-    </form>
+    </div>
+    <div class="panel">
     <p>username: {{user.username}}</p>
     <p>email: {{user.email}}</p>
     {% if user.first_name %}
@@ -16,5 +19,6 @@
     {% endif %}
     {% if user.last_name %}
     <p>last name: {{user.last_name}}</p>
+        </div>
     {% endif %}
 {% endblock %}

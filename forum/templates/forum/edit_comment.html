@@ -1,12 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
-    <form method="post" action="/forum/edit_comment/{{topic.id}}/{{post.id}}/{{comment.id}}/">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Edit">
+    <div class="heading2">Edit comment</div>
+    <div class="buttons-panel">
+    <form action="/forum/user_profile/{{user.id}}/" class="btn-group">
+        <button type="submit">Profile</button>
     </form>
-    <form action="/forum/delete_comment/{{topic.id}}/{{post.id}}/{{comment.id}}" method="get">
-        {% csrf_token %}
-        <input type="submit" value="Delete"/>
-    </form>
+    </div>
+  <form method="post" action="/forum/edit_comment/{{topic.id}}/{{post.id}}/{{comment.id}}/">
+    {% csrf_token %}
+    {{ form.comment_text }}
+  </form>
+    <div class="buttons-panel2">
+        <button type="submit" class="btn-group">Save</button>
+        <form action="/forum/delete_comment/{{topic.id}}/{{post.id}}/{{comment.id}}/" method="get" class="btn-group">
+            {% csrf_token %}
+            <button type="submit">Delete</button>
+        </form>
+    </div>
 {% endblock %}

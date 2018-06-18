@@ -1,27 +1,32 @@
 {% extends 'base.html' %}
 {% block content %}
-    <form action="/forum/user_profile/{{user.id}}/">
-        <input type="submit" value="Profile"/>
+    <div class="heading2">Topics</div>
+    <div class="buttons-panel">
+        <form action="/forum/add_topic/" method="post" class="btn-group">
+            {% csrf_token %}
+            <button type="submit">Add topic</button>
+        </form>
+    <form action="/forum/user_profile/{{user.id}}/" class="btn-group">
+        <button type="submit">Profile</button>
     </form>
-    <form action="/forum/add_topic/" method="post">
-        {% csrf_token %}
-        <input type="submit" value="Add topic"/>
-    </form>
+    </div>
     {% if topics_list %}
         {% for topic in topics_list %}
-            <p>{{topic.name}}</p>
-            <p>created on {{topic.published_date}} by {{topic.user}}</p>
-                <form action="/forum/topic/{{topic.id}}">
-                    <input type="submit" value="Go"/>
-                </form>
-            {% if topic.user == user %}
-                <form action="/forum/edit_topic/{{topic.id}}/" method="get">
+            <div class="panel">
+                <div class="topic">{{topic.name}}</div>
+                <div class="date">created on {{topic.published_date}} by {{topic.user}}</div>
+            </div>
+                <div class="buttons-panel2">
+                {% if topic.user == user %}
+                <form action="/forum/edit_topic/{{topic.id}}/" method="get" class="btn-group">
                     {% csrf_token %}
-                    <input type="submit" value="Edit topic"/>
+                    <button type="submit">Edit topic</button>
                 </form>
-            {% endif %}
+                {% endif %}
+                <form action="/forum/topic/{{topic.id}}" class="btn-group">
+                    <button type="submit">Go</button>
+                </form>
+                    </div>
         {% endfor %}
-    {% else %}
-        <p>There are no topics in the forum</p>
     {% endif %}
 {% endblock %}

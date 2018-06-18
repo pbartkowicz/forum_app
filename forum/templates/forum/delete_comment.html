@@ -1,12 +1,22 @@
 {% extends 'base.html' %}
 {% block content %}
-    <p>Do you want to delete {{comment.comment_text}}?</p>
-    <form method="post" action="/forum/delete_comment/{{topic.id}}/{{post.id}}/{{comment.id}}/">
-        {% csrf_token %}
-        <input type="submit" value="Yes">
+    <div class="heading2">Delete</div>
+    <div class="buttons-panel">
+    <form action="/forum/user_profile/{{user.id}}/" class="btn-group">
+        <button type="submit">Profile</button>
     </form>
-    <form method="post" action="/forum/topic/{{topic.id}}/">
+    </div>
+    <div class="panel">
+        <p>{{comment.comment_text}}</p>
+    </div>
+    <div class="buttons-panel2">
+    <form method="post" action="/forum/delete_comment/{{topic.id}}/{{post.id}}/{{comment.id}}/" class="btn-group">
         {% csrf_token %}
-        <input type="submit" value="No">
+            <button type="submit">Yes</button>
     </form>
+    <form method="post" action="/forum/topic/{{topic.id}}/" class="btn-group">
+        {% csrf_token %}
+            <button type="submit">No</button>
+    </form>
+        </div>
 {% endblock %}
