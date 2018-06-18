@@ -8,6 +8,9 @@ from django.shortcuts import redirect, get_object_or_404, render
 from django.contrib.auth.forms import PasswordChangeForm
 
 
+# user managing
+
+
 def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -20,7 +23,10 @@ def register(request):
             return redirect('/forum/')
     else:
         form = RegisterForm()
-    return render(request, 'registration/register.html', {'form': form})
+
+    template = loader.get_template('registration/register.html')
+    context = {'form': form}
+    return HttpResponse(template.render(context, request))
 
 
 @login_required
@@ -65,6 +71,9 @@ def change_password(request):
     return HttpResponse(template.render(context, request))
 
 
+# main views in forum
+
+
 @login_required
 def index(request):
     topics_list = Topic.objects.order_by('-published_date')
@@ -76,12 +85,14 @@ def index(request):
 @login_required
 def topic(request, topic_id):
     posts_list = Post.objects.filter(topic=topic_id).order_by('-published_date')
-    template = loader.get_template('forum/topic.html')
     comments_list = Comment.objects.order_by('-published_date')
-
+    template = loader.get_template('forum/topic.html')
     context = {'posts_list': posts_list, 'topic': Topic.objects.get(id=topic_id),
                'comments_list': comments_list}
     return HttpResponse(template.render(context, request))
+
+
+# topics managing
 
 
 @login_required
@@ -97,10 +108,41 @@ def add_topic(request):
     else:
         form = TopicForm()
 
-    context = {'form': form}
     template = loader.get_template('forum/add_topic.html')
+    context = {'form': form}
     return HttpResponse(template.render(context, request))
 
+
+@login_required
+def delete_topic(request, topic_id):
+    if request.method == 'POST':
+        Topic.objects.filter(id=topic_id).delete()
+        return redirect('/forum/')
+
+    this_topic = get_object_or_404(Topic, id=topic_id)
+    template = loader.get_template('forum/delete_topic.html')
+    context = {'topic': this_topic}
+    return HttpResponse(template.render(context, request))
+
+
+@login_required
+def edit_topic(request, topic_id):
+    this_topic = get_object_or_404(Topic, id=topic_id)
+    if request.method == 'POST':
+        form = TopicForm(request.POST, instance=this_topic)
+        if form.is_valid():
+            this_topic = form.save(commit=False)
+            this_topic.save()
+            return redirect('/forum/')
+    else:
+        form = TopicForm(initial={'name': this_topic.name, })
+
+    template = loader.get_template('forum/edit_topic.html')
+    context = {'form': form, 'topic': this_topic}
+    return HttpResponse(template.render(context, request))
+
+
+# posts managing
 
 @login_required
 def add_post(request, topic_id):
@@ -117,9 +159,45 @@ def add_post(request, topic_id):
             print(form.errors)
     else:
         form = PostForm()
-    context = {'form': form, 'topic': this_topic}
+
     template = loader.get_template('forum/add_post.html')
+    context = {'form': form, 'topic': this_topic}
     return HttpResponse(template.render(context, request))
+
+
+@login_required
+def delete_post(request, topic_id, post_id):
+    if request.method == 'POST':
+        Post.objects.filter(id=post_id).delete()
+        return redirect('/forum/topic/' + topic_id)
+
+    this_topic = get_object_or_404(Topic, id=topic_id)
+    this_post = get_object_or_404(Post, id=post_id)
+
+    template = loader.get_template('forum/delete_post.html')
+    context = {'topic': this_topic, 'post': this_post}
+    return HttpResponse(template.render(context, request))
+
+
+@login_required
+def edit_post(request, topic_id, post_id):
+    this_topic = get_object_or_404(Topic, id=topic_id)
+    this_post = get_object_or_404(Post, id=post_id)
+    if request.method == 'POST':
+        form = PostForm(request.POST, instance=this_post)
+        if form.is_valid():
+            this_post = form.save(commit=False)
+            this_post.save()
+            return redirect('/forum/topic/' + topic_id)
+    else:
+        form = PostForm(initial={'post_text': this_post.post_text, })
+
+    template = loader.get_template('forum/edit_post.html')
+    context = {'form': form, 'topic': this_topic, 'post': this_post}
+    return HttpResponse(template.render(context, request))
+
+
+# comments managing
 
 
 @login_required
@@ -138,31 +216,9 @@ def add_comment(request, topic_id, post_id):
             print(form.errors)
     else:
         form = CommentForm()
-    context = {'form': form, 'post': this_post, 'topic': this_topic}
+
     template = loader.get_template('forum/add_comment.html')
-    return HttpResponse(template.render(context, request))
-
-
-@login_required
-def delete_topic(request, topic_id):
-    if request.method == 'POST':
-        Topic.objects.filter(id=topic_id).delete()
-        return redirect('/forum/')
-    this_topic = get_object_or_404(Topic, id=topic_id)
-    context = {'topic': this_topic}
-    template = loader.get_template('forum/delete_topic.html')
-    return HttpResponse(template.render(context, request))
-
-
-@login_required
-def delete_post(request, topic_id, post_id):
-    if request.method == 'POST':
-        Post.objects.filter(id=post_id).delete()
-        return redirect('/forum/topic/' + topic_id)
-    this_topic = get_object_or_404(Topic, id=topic_id)
-    this_post = get_object_or_404(Post, id=post_id)
-    context = {'topic': this_topic, 'post': this_post}
-    template = loader.get_template('forum/delete_post.html')
+    context = {'form': form, 'post': this_post, 'topic': this_topic}
     return HttpResponse(template.render(context, request))
 
 
@@ -171,46 +227,13 @@ def delete_comment(request, topic_id, post_id, comment_id):
     if request.method == 'POST':
         Comment.objects.filter(id=comment_id).delete()
         return redirect('/forum/topic/' + topic_id)
+
     this_topic = get_object_or_404(Topic, id=topic_id)
     this_post = get_object_or_404(Post, id=post_id)
     this_comment = get_object_or_404(Comment, id=comment_id)
-    context = {'topic': this_topic, 'post': this_post, 'comment': this_comment}
+
     template = loader.get_template('forum/delete_comment.html')
-    return HttpResponse(template.render(context, request))
-
-
-@login_required
-def edit_topic(request, topic_id):
-    this_topic = get_object_or_404(Topic, id=topic_id)
-    if request.method == 'POST':
-        form = TopicForm(request.POST, instance=this_topic)
-        if form.is_valid():
-            this_topic = form.save(commit=False)
-            this_topic.save()
-            return redirect('/forum/')
-    else:
-        form = TopicForm(initial={'name': this_topic.name, })
-
-    context = {'form': form, 'topic': this_topic}
-    template = loader.get_template('forum/edit_topic.html')
-    return HttpResponse(template.render(context, request))
-
-
-@login_required
-def edit_post(request, topic_id, post_id):
-    this_topic = get_object_or_404(Topic, id=topic_id)
-    this_post = get_object_or_404(Post, id=post_id)
-    if request.method == 'POST':
-        form = PostForm(request.POST, instance=this_post)
-        if form.is_valid():
-            this_post = form.save(commit=False)
-            this_post.save()
-            return redirect('/forum/topic/' + topic_id)
-    else:
-        form = PostForm(initial={'post_text': this_post.post_text, })
-
-    context = {'form': form, 'topic': this_topic, 'post': this_post}
-    template = loader.get_template('forum/edit_post.html')
+    context = {'topic': this_topic, 'post': this_post, 'comment': this_comment}
     return HttpResponse(template.render(context, request))
 
 
@@ -219,7 +242,6 @@ def edit_comment(request, topic_id, post_id, comment_id):
     this_topic = get_object_or_404(Topic, id=topic_id)
     this_post = get_object_or_404(Post, id=post_id)
     this_comment = get_object_or_404(Comment, id=comment_id)
-
     if request.method == 'POST':
         form = CommentForm(request.POST, instance=this_comment)
         if form.is_valid():
@@ -229,6 +251,6 @@ def edit_comment(request, topic_id, post_id, comment_id):
     else:
         form = CommentForm(initial={'comment_text': this_comment.comment_text, })
 
-    context = {'form': form, 'topic': this_topic, 'post': this_post, 'comment': this_comment}
     template = loader.get_template('forum/edit_comment.html')
+    context = {'form': form, 'topic': this_topic, 'post': this_post, 'comment': this_comment}
     return HttpResponse(template.render(context, request))

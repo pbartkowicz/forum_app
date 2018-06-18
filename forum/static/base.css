@@ -8,6 +8,13 @@ body {
     margin-bottom: 0px;
 }
 
+h1 {
+    font-size: 50px;
+    color: #d9d9d9;
+    text-align: center;
+    margin-bottom: 0px;
+}
+
 .heading {
     background-color: #4d004d;
     margin-bottom: 0px;
@@ -22,22 +29,6 @@ body {
     text-align: left;
 }
 
-.buttons-panel {
-    background-color: #4d004d;
-    margin-top: 0px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-.buttons-panel2 {
-    margin-top: 0px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-right: 200px;
-}
-
 .panel {
     background-color: #8c8c8c;
     outline: none;
@@ -48,6 +39,20 @@ body {
     text-align: left;
     margin-right: 200px;
     margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.comment-panel {
+    background-color: #8c8c8c;
+    outline: none;
+    border-radius: 15px;
+    border: none;
+    min-width: 1000px;
+    min-height: 80px;
+    text-align: left;
+    margin-right: 200px;
+    margin-left: 60px;
     margin-top: 10px;
     margin-bottom: 10px;
 }
@@ -65,27 +70,6 @@ body {
     margin-top: 20px;
     margin-bottom: 10px;
     font-size: 15px;
-}
-
-.comment-panel {
-    background-color: #8c8c8c;
-    outline: none;
-    border-radius: 15px;
-    border: none;
-    min-width: 1000px;
-    min-height: 80px;
-    text-align: left;
-    margin-right: 200px;
-    margin-left: 60px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-h1 {
-    font-size: 50px;
-    color: #d9d9d9;
-    text-align: center;
-    margin-bottom: 0px;
 }
 
 textarea {
@@ -139,6 +123,23 @@ button {
     margin-right: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+
+.buttons-panel {
+    background-color: #4d004d;
+    margin-top: 0px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.buttons-panel2 {
+    margin-top: 0px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 200px;
 }
 
 .login {
